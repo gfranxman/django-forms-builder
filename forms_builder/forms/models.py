@@ -247,6 +247,14 @@ class FieldEntry(AbstractFieldEntry):
 class Form(AbstractForm):
     pass
 
+class Page( models.Model ):
+    name = models.CharField( max_length=250)
+    description = models.CharField( max_length=250)
+    survey = models.ForeignKey( 'Form' )
+    rank = models.IntegerField()
+
+    def __unicode__( self ):
+        return self.name
 
 class Field(AbstractField):
     """
@@ -255,6 +263,7 @@ class Field(AbstractField):
 
     form = models.ForeignKey("Form", related_name="fields")
     order = models.IntegerField(_("Order"), null=True, blank=True)
+    page = models.ForeignKey("Page", related_name="pages", null=True, blank=True )
 
     class Meta(AbstractField.Meta):
         ordering = ("order",)

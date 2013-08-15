@@ -17,6 +17,8 @@ from forms_builder.forms.models import FormEntry, FieldEntry
 from forms_builder.forms import settings
 from forms_builder.forms.utils import now, split_choices
 
+from formfieldset.forms import FieldsetMixin
+
 
 fs = FileSystemStorage(location=settings.UPLOAD_ROOT)
 
@@ -112,8 +114,22 @@ date_filter_field = forms.ChoiceField(label=" ", required=False,
                                       choices=DATE_FILTER_CHOICES)
 
 
-class FormForForm(forms.ModelForm):
+def add_field_to_fieldsets( fieldsets, fsname, fsdescription, fname ):
+    known_sets = [ x[0] for x in fieldsets ]
+    if fsname not in known_sets:
+        fieldsets.append( (fsname, { 'fields': (), 'description': fsdescription } ) )
+
+    for fs in fieldsets:
+        if fs[0] == fsname:
+            if fname not in fs[1]['fields']:
+                # this must be a tuple.   It fails if you build this value with lists.
+                # god knows why this is neccessary
+                fs[1]['fields'] = tuple( list( fs[1]['fields'] ) + [ fname ] )  
+    
+       
+class FormForForm(forms.ModelForm, FieldsetMixin):
     field_entry_model = FieldEntry
+    fieldsets = [] # supported by the fieldsetMixin
 
     class Meta:
         model = FormEntry
@@ -134,8 +150,15 @@ class FormForForm(forms.ModelForm):
             for field_entry in kwargs["instance"].fields.all():
                 field_entries[field_entry.field_id] = field_entry.value
         super(FormForForm, self).__init__(*args, **kwargs)
+        from pprint import pprint
+        pprint( self.fieldsets )
         # Create the form fields.
         for field in self.form_fields:
+            ####
+            pprint( dir( field ) )
+            add_field_to_fieldsets( self.fieldsets, str(field.page.name).replace(' ', '_'), field.page.description, str(field).replace(' ', '_') )
+            pprint( self.fieldsets )
+            ####
             field_key = field.slug
             field_class = fields.CLASSES[field.field_type]
             field_widget = fields.WIDGETS.get(field.field_type)

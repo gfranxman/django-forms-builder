@@ -152,6 +152,11 @@ class FormForForm(forms.ModelForm, FieldsetMixin):
         super(FormForForm, self).__init__(*args, **kwargs)
         from pprint import pprint
         pprint( self.fieldsets )
+        #self._tmpl_p[0] = u'<div class="fieldset" >%(title)s%(description)s%(fields)s</div>'
+        mutable = list( self._tmpl_p )
+        mutable[0] = u'<div class="fieldset" >%(title)s%(description)s%(fields)s</div>'
+        self._tmpl_p = tuple( mutable )
+
         # Create the form fields.
         for field in self.form_fields:
             ####

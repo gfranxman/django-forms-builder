@@ -160,8 +160,12 @@ class FormForForm(forms.ModelForm, FieldsetMixin):
         # Create the form fields.
         for field in self.form_fields:
             ####
-            pprint( dir( field ) )
-            add_field_to_fieldsets( self.fieldsets, str(field.page.name).replace(' ', '_'), field.page.description, str(field).replace(' ', '_') )
+            #pprint( dir( field ) )
+            if not field.page:
+                #                       our fieldset    page name                               page description,       field name
+                add_field_to_fieldsets( self.fieldsets, '',                                    '',                     str(field).replace(' ', '_') )
+            else:
+                add_field_to_fieldsets( self.fieldsets, str(field.page.name).replace(' ', '_'), field.page.description, str(field).replace(' ', '_') )
             pprint( self.fieldsets )
             ####
             field_key = field.slug

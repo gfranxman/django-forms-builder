@@ -53,6 +53,7 @@ class FieldAdmin(admin.TabularInline):
 
 class PageAdmin( admin.TabularInline):
     model = Page
+    extra = 0
 
 
 class FormAdmin(admin.ModelAdmin):

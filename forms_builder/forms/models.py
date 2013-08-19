@@ -249,7 +249,7 @@ class Form(AbstractForm):
 
 class Page( models.Model ):
     name = models.CharField( max_length=250)
-    description = models.CharField( max_length=250)
+    description = models.TextField( max_length=250)
     survey = models.ForeignKey( 'Form' )
     rank = models.IntegerField()
 

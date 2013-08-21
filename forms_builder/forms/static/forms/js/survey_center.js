@@ -123,7 +123,7 @@ function fum (ele){
 											if(survey.opts.fum && field.type == "file"){
 
 												var fum_markup = fum(field.input.clone());
-												field.ele.apped(fum_markup);
+												field.ele.appendTo(fum_markup);
 											}
 
 										});

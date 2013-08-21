@@ -122,7 +122,7 @@ function fum (ele){
 											// if file up markup (fum) is true
 											if(survey.opts.fum && field.type == "file"){
 
-												var fum_markup = fum(field.input.clone();
+												var fum_markup = fum(field.input.clone());
 												field.ele.apped(fum_markup);
 											}
 

@@ -40,9 +40,10 @@ function fum (id){
 			form 			: $(this),
 			opts 			: $.extend( {}, $.fn.surveyCenter.settings, options ),
 			fieldsets 		: '',
-			submit_button 	: $(":submit"),
-			next_button 	: '<button type="button" value="1" name="Next">Next</button>',
-			pagination 		: '<div class="pagination"><ul class="js-controls"></ul></div>',
+			submit_button 	: '<button class="btn-submit" type="button" value="submit" name="Submit" style="display:none;">Submit</button>',
+			next_button 	: '<button class="btn-next" type="button" value="1" name="Next">Next</button>',
+			pagination 		: '<div class="pagination"><ul></ul></div>',
+			controls 		: $(".js-controls"),
 			setup 			: function(){
 								try{
 									// setup fieldsets and pager
@@ -169,11 +170,14 @@ function fum (id){
 		// log test results
 		console.log(msg_fieldsets);
 
-		// append pagination element
-		$("form").append(survey.pagination);
+		// hide original submit button
+		$(":submit").hide();
 
-		// append next button
-		$("form").append(survey.next_button);
+		// build controls
+		var controls = survey.pagination + survey.next_button + survey.submit_button;
+
+		// insert new controls element
+		survey.controls.html(controls);
 
 		// setup survey
 		var survey_ready = survey.setup();
@@ -182,10 +186,11 @@ function fum (id){
 		if(survey_ready){
 
 			// hid submit button
-			survey.submit_button.hide();
+			//survey.submit_button.hide();
 
-			// get next button
-			survey.next_button = $(":button[name=Next]");
+			// get buttons
+			survey.submit_button = $(".btn-submit");
+			survey.next_button = $(".btn-next");
 
 
 			// next button event handler
@@ -203,7 +208,7 @@ function fum (id){
 			});
 
 			// pagination button event handler
-			$(".pagination > .js-controls > li").click(function(){
+			$(".pagination > ul > li").click(function(){
 				
 				var pager_num = parseInt($(this).index() +1);
 				

@@ -105,15 +105,15 @@ function fum (id){
 											field.ele.append('<i class="icon-info-sign icon-black">');
 
 											// set popovers for info icons
-											/*$this.popover({
-												title: "Test Tile",
-												content: "Teest"
+											field.ele.children("i.icon-info-sign").popover({
+												title: field.label.getTextOnly(),
+												content: $(this).next().getTextOnly()
 											});
 
 											// creeate event handler for popovers
-											$this.click(function(){
-												$('i.icon-info-sign').popover('toggle');
-											});*/
+											//field.ele.children("i.icon-info-sign").click(function(){
+											//	$('i.icon-info-sign').popover('toggle');
+											//});
 
 										});
 

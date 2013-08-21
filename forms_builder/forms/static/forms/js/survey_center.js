@@ -12,7 +12,7 @@ function fum (ele){
 		markup += '<div class="fileupload fileupload-new" data-provides="fileupload">';
 		markup += '<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>';
 		markup += '<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>';
-		markup += '<div><span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span>'+ele+'</span>';
+		markup += '<div><span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><!-- input field -->'+ele+'</span>';
 		markup += '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a></div></div>';
  
  	return markup;
@@ -21,8 +21,10 @@ function fum (ele){
 /* jQuery */
 (function($){
 
-	
-
+	/*
+	 * Plugin 		: removeTextOnly
+	 * Description 	: simple plugin to remove the text of an element.
+	 */
 	$.fn.removeTextOnly = function() {
    
     	$(this).contents().filter(function(){
@@ -119,11 +121,17 @@ function fum (ele){
 											// add claass to form element
 											field.input.addClass(field.type);
 
-											// if file up markup (fum) is true
+											// if (fum) option is true
 											if(survey.opts.fum && field.type == "file"){
 
-												var fum_markup = fum(field.input.clone());
-												field.ele.appendTo(fum_markup);
+												// get new input makup
+												var fum_markup = fum(field.input[0].outerHTML);
+												
+												// delete the old
+												field.input.remove();
+
+												// append the new
+												field.ele.append(fum_markup);
 											}
 
 										});

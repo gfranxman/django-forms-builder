@@ -313,7 +313,7 @@ function fum (id){
         s_fieldsets  	: "div.fieldset",
         s_imagefields	: "input.imagefield",
         c_active 	 	: "js-is-active",
-        c_disable 	 	: "js-is-disable"
+        c_disable 	 	: "js-is-disabled"
     }
 
 

@@ -129,7 +129,6 @@ def add_field_to_fieldsets( fieldsets, fsname, fsdescription, fname ):
        
 class FormForForm(forms.ModelForm, FieldsetMixin):
     field_entry_model = FieldEntry
-    fieldsets = [] # supported by the fieldsetMixin
 
     class Meta:
         model = FormEntry
@@ -140,6 +139,7 @@ class FormForForm(forms.ModelForm, FieldsetMixin):
         Dynamically add each of the form fields for the given form model
         instance and its related field model instances.
         """
+        self.fieldsets = [] # supported by the fieldsetMixin
         self.form = form
         self.form_fields = form.fields.visible()
         initial = kwargs.pop("initial", {})
@@ -151,6 +151,7 @@ class FormForForm(forms.ModelForm, FieldsetMixin):
                 field_entries[field_entry.field_id] = field_entry.value
         super(FormForForm, self).__init__(*args, **kwargs)
         from pprint import pprint
+        print "initial fieldsets:"
         pprint( self.fieldsets )
         #self._tmpl_p[0] = u'<div class="fieldset" >%(title)s%(description)s%(fields)s</div>'
         mutable = list( self._tmpl_p )
@@ -160,13 +161,14 @@ class FormForForm(forms.ModelForm, FieldsetMixin):
         # Create the form fields.
         for field in self.form_fields:
             ####
-            #pprint( dir( field ) )
             if not field.page:
+                print "Field", field, "has no page assignment"
+                pass
                 #                       our fieldset    page name                               page description,       field name
-                add_field_to_fieldsets( self.fieldsets, '',                           ' ',                     str(field).replace(' ', '_') )
+                #add_field_to_fieldsets( self.fieldsets, 'Questions',                           ' ',                     field.slug) #).replace(' ', '_') )
             else:
-                add_field_to_fieldsets( self.fieldsets, str(field.page.name).replace(' ', '_'), field.page.description, str(field).replace(' ', '_') )
-            pprint( self.fieldsets )
+                print "adding", field.slug, "to", field.page.name
+                add_field_to_fieldsets( self.fieldsets, field.page.name, field.page.description, field.slug )#str(field).replace(' ', '_') )
             ####
             field_key = field.slug
             field_class = fields.CLASSES[field.field_type]

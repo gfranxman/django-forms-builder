@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>{{ form.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {font-family:sans-serif; padding:1em 2em;}
         p {width:50em; clear:both;}
@@ -11,7 +12,22 @@
         li label {width:auto; cursor:pointer;}
         .errorlist {color:#f00;}
     </style>
+    <link href="/static/forms/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/forms/css/survey_center.css" rel="stylesheet" media="screen">
 </head>
 <body>
     {% render_built_form form %}
+    <!-- Start: custom js -->
+    <script src="/static/forms/js/jquery-1.10.1.min.js"></script>
+    <script src="/static/forms/js/bootstrap.min.js"></script>
+    <script src="/static/forms/js/survey_center.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // initiate jquery survey center
+            $("form").surveyCenter({fum:true});
+            
+        });
+    </script>
+    <!-- End: custom js -->
 </body>

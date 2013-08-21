@@ -68,9 +68,6 @@ function fum (id){
 									// setup fieldsets and pager
 									survey.fieldsets.each(function(){
 
-										// checker if field will be select with an option of "other"
-										var other_option = false;
-
 										var fieldset = {
 											ele: $(this),
 											num: parseInt($(this).index() +1),
@@ -119,24 +116,8 @@ function fum (id){
 												delay: { show: 500, hide: 100 }
 											});
 
-											// check if field type is a select with an "option" selection
-											if(field.type == "select"){
-												field.input.children().each(function(){
-
-													// select opiton text
-													var option = $(this).text().toLowerCase();
-
-													// check if value is other then do something
-													if(option == "other"){
-														
-														// set a flag for "other" option
-														other_option = true;
-													}
-												});
-											}else{
-												other_option = false;
-											}
-
+											// add claass to form element
+											field.input.addClass(field.type);
 
 										});
 

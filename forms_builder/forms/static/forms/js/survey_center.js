@@ -68,6 +68,9 @@ function fum (id){
 									// setup fieldsets and pager
 									survey.fieldsets.each(function(){
 
+										// checker if field will be select with an option of "other"
+										var other_option = false;
+
 										var fieldset = {
 											ele: $(this),
 											num: parseInt($(this).index() +1),
@@ -85,7 +88,7 @@ function fum (id){
 												ele: $(this),
 												desc: $(this).getTextOnly(),
 												label: $(this).find("label"),
-												input: $(this).find("input"),
+												input: $(this).children().eq(1),
 												type: ""
 											}
 											
@@ -95,25 +98,45 @@ function fum (id){
 											// get field input type
 											field.type = field.input.attr("type");
 
+											// if not tag input
+											if(!field.type){
+												field.type = field.input[0].nodeName.toLowerCase();
+											}
+
 											// clear text from field
 											field.ele.removeTextOnly();
 
-											// add custom element with field text
-											field.ele.append('</i><span class="desc '+field.type+'">'+field.desc+'</span>');
+											// add custom element with field te
+											field.ele.append('<span class="desc '+field.type+'">'+field.desc+'</span>');
 
 											// info icon for popover
-											field.ele.append('<i class="icon-info-sign icon-black">');
+											field.ele.append('<i class="icon-info-sign icon-black"></i>');
 
 											// set popovers for info icons
 											field.ele.children("i.icon-info-sign").popover({
 												title: field.label.getTextOnly(),
-												content: $(this).next().getTextOnly()
+												content: $(this).next().getTextOnly(),
+												delay: { show: 500, hide: 100 }
 											});
 
-											// creeate event handler for popovers
-											//field.ele.children("i.icon-info-sign").click(function(){
-											//	$('i.icon-info-sign').popover('toggle');
-											//});
+											// check if field type is a select with an "option" selection
+											if(field.type == "select"){
+												field.input.children().each(function(){
+
+													// select opiton text
+													var option = $(this).text().toLowerCase();
+
+													// check if value is other then do something
+													if(option == "other"){
+														
+														// set a flag for "other" option
+														other_option = true;
+													}
+												});
+											}else{
+												other_option = false;
+											}
+
 
 										});
 

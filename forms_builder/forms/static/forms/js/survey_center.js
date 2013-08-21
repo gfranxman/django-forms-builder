@@ -6,13 +6,13 @@
 /* Global */
 var hash = window.location.hash.substring(1);
 
-function fum (id){
+function fum (ele){
 
 	var markup =  '<!-- FROM JS: File Upload Markup (fum) -->';
-		markup += '<div id='+id+' class="fileupload fileupload-new" data-provides="fileupload">';
+		markup += '<div class="fileupload fileupload-new" data-provides="fileupload">';
 		markup += '<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>';
 		markup += '<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>';
-		markup += '<div><span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><input type="file" /></span>';
+		markup += '<div><span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span>'+ele+'</span>';
 		markup += '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a></div></div>';
  
  	return markup;
@@ -119,6 +119,13 @@ function fum (id){
 											// add claass to form element
 											field.input.addClass(field.type);
 
+											// if file up markup (fum) is true
+											if(survey.opts.fum && field.type == "file"){
+
+												var fum_markup = fum(field.input.clone();
+												field.ele.apped(fum_markup);
+											}
+
 										});
 
 										// only if item num is one... {CONSIDER NO HASh}
@@ -150,25 +157,6 @@ function fum (id){
 										// append item pager to pagination
 										$("div.pagination > ul").append(fieldset.pager);
 									});
-
-									// if file up markup (fum) is true
-									if(survey.opts.fum){
-
-										var image_fields = $(survey.opts.s_imagefields);
-
-										image_fields.each(function(){
-											
-											var field = $(this);
-
-											field.addClass(survey.opts.c_disable);
-
-											var field_markup = fum("test");
-											field.after(field_markup);
-											
-											field.fileupload();
-
-										});
-									}
 
 									return true
 
@@ -290,6 +278,10 @@ function fum (id){
 					survey.next_button.attr("value", pager_num);
 				}
 
+			});
+
+			survey.submit_button.click(function(){
+				survey.form.submit();
 			});
 
 			// if hash value passed

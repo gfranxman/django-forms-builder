@@ -21,11 +21,30 @@ function fum (id){
 /* jQuery */
 (function($){
 
+	
+
+	$.fn.removeTextOnly = function() {
+   
+    	$(this).contents().filter(function(){
+    		 return this.nodeType == 3; //Node.TEXT_NODE
+    	}).remove();
+	};
+
+	/*
+	 * Plugin 		: textOnly
+	 * Description 	: simple plugin to retun only the text of an element.
+	 */
+	$.fn.getTextOnly = function() {
+   
+    	return $.trim((this).clone().children().remove().end().text());
+	};
+
 	/*
 	 * Plugin 		: exits
 	 * Description 	: simple plugin to retun bool if element exists
 	 */
     $.fn.exists = function(){
+
         return this.length > 0;
     };
 
@@ -52,14 +71,58 @@ function fum (id){
 										var fieldset = {
 											ele: $(this),
 											num: parseInt($(this).index() +1),
+											fields: $(this).find("p"),
 											pager: ''
 										};
 
 										// add js classes
 										fieldset.ele.addClass("js-fieldset-" + fieldset.num);
 
+										// go thruough each field of fieldset and do stuff
+										fieldset.fields.each(function(){
+
+											var field = {
+												ele: $(this),
+												desc: $(this).getTextOnly(),
+												label: $(this).find("label"),
+												input: $(this).find("input"),
+												type: ""
+											}
+											
+											// add class to field
+											field.ele.addClass("field");
+
+											// get field input type
+											field.type = field.input.attr("type");
+
+											// clear text from field
+											field.ele.removeTextOnly();
+
+											// add custom element with field text
+											field.ele.append('</i><span class="desc '+field.type+'">'+field.desc+'</span>');
+
+											// info icon for popover
+											field.ele.append('<i class="icon-info-sign icon-black">');
+
+											// set popovers for info icons
+											/*$this.popover({
+												title: "Test Tile",
+												content: "Teest"
+											});
+
+											// creeate event handler for popovers
+											$this.click(function(){
+												$('i.icon-info-sign').popover('toggle');
+											});*/
+
+										});
+
 										// only if item num is one... {CONSIDER NO HASh}
 										if(fieldset.num === 1){
+
+											// display block
+											fieldset.ele.show();
+
 											// show first field set 
 											fieldset.ele.addClass(survey.opts.c_active);
 
@@ -69,6 +132,9 @@ function fum (id){
 											// set first pagination item to active
 											fieldset.pager = '<li class="js-pager-'+fieldset.num+' active"><span>'+fieldset.num+'</span></li>';
 										}else{
+
+											// display none
+											fieldset.ele.hide();
 
 											// hide  field set 
 											fieldset.ele.addClass(survey.opts.c_disable);
@@ -122,10 +188,14 @@ function fum (id){
 
 										// if fieldset number is equal to goto number
 										if(fieldset.num === goto_num){
+
 											fieldset.ele.removeClass(survey.opts.c_disable);
-											fieldset.ele.addClass(survey.opts.c_active);
-											fieldset.pager.addClass("active");
+											fieldset.ele.fadeIn("600", function(){
+												fieldset.ele.addClass(survey.opts.c_active);
+												fieldset.pager.addClass("active");
+											});
 										}else{
+											fieldset.ele.hide();
 											fieldset.ele.addClass(survey.opts.c_disable);
 											fieldset.ele.removeClass(survey.opts.c_active);
 											fieldset.pager.removeClass("active");
@@ -184,9 +254,6 @@ function fum (id){
 
 		// if survey setup is sucessful and ready then set survey event handlers
 		if(survey_ready){
-
-			// hid submit button
-			//survey.submit_button.hide();
 
 			// get buttons
 			survey.submit_button = $(".btn-submit");

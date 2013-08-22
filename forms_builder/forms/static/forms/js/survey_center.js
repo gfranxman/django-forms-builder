@@ -100,7 +100,7 @@ function fum (ele){
 
 											// if not tag input
 											if(!field.type){
-												//field.type = field.input[0].nodeName.toLowerCase();
+												field.type = field.input[0].nodeName.toLowerCase();
 											}
 
 											// clear text from field

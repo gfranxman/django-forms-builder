@@ -288,8 +288,21 @@ function fum (ele){
 
 			});
 
+			// submit form
 			survey.submit_button.click(function(){
 				survey.form.submit();
+			});
+
+			// remove popovers
+			$(':not(#anything)').on('click', function (e) {
+			    $('i.icon-info-sign').each(function () {
+			        //the 'is' for buttons that trigger popups
+			        //the 'has' for icons and other elements within a button that triggers a popup
+			        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+			            $(this).popover('hide');
+			            return;
+			        }
+			    });
 			});
 
 			// if hash value passed

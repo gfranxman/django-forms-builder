@@ -115,7 +115,7 @@ function fum (ele){
 											// set popovers for info icons
 											field.ele.children("i.icon-info-sign").popover({
 												title: field.label.getTextOnly(),
-												content: $(this).next().getTextOnly(),
+												content: field.desc,
 												delay: { show: 500, hide: 100 },
 												placement: 'top'
 											});

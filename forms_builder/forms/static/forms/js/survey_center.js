@@ -91,6 +91,7 @@ function fum (ele){
 												type: ""
 											}
 											
+
 											// add class to field
 											field.ele.addClass("field");
 
@@ -99,7 +100,7 @@ function fum (ele){
 
 											// if not tag input
 											if(!field.type){
-												field.type = field.input[0].nodeName.toLowerCase();
+												//field.type = field.input[0].nodeName.toLowerCase();
 											}
 
 											// clear text from field
@@ -115,7 +116,8 @@ function fum (ele){
 											field.ele.children("i.icon-info-sign").popover({
 												title: field.label.getTextOnly(),
 												content: $(this).next().getTextOnly(),
-												delay: { show: 500, hide: 100 }
+												delay: { show: 500, hide: 100 },
+												placement: 'top'
 											});
 
 											// add claass to form element

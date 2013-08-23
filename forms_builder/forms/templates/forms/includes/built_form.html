@@ -1,6 +1,6 @@
     <h1>{{ form.title }}</h1>
     {% if form.intro %}
-        {% autoescape on %}
+        {% autoescape off %}
             <p>{{ form.intro }}</p>
         {% endautoescape %}
     {% endif %}

@@ -91,7 +91,6 @@ function fum (ele){
 												type: ""
 											}
 											
-
 											// add class to field
 											field.ele.addClass("field");
 
@@ -167,8 +166,11 @@ function fum (ele){
 										// append item pager to pagination
 										$("div.pagination > ul").append(fieldset.pager);
 									});
+									
+									// give me nice little bits of info.
+									var res ={success: true, page_count:survey.fieldsets.length};
 
-									return true
+									return res;
 
 								}catch(err){
 
@@ -252,10 +254,10 @@ function fum (ele){
 		survey.controls.html(controls);
 
 		// setup survey
-		var survey_ready = survey.setup();
+		var survey_status = survey.setup();
 
 		// if survey setup is sucessful and ready then set survey event handlers
-		if(survey_ready){
+		if(survey_status.success){
 
 			// get buttons
 			survey.submit_button = $(".btn-submit");
@@ -317,6 +319,13 @@ function fum (ele){
 				if(done){
 					survey.next_button.attr("value", hash_num);
 				}
+			}
+
+			// go to first and check if only one page/fieldset
+			survey.goto(1);
+
+			if(survey_status.page_count == 1){
+				$(".pagination").hide();
 			}
 
 		}

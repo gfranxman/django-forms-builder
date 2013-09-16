@@ -108,16 +108,20 @@ function fum (ele){
 											// add custom element with field te
 											field.ele.append('<span class="desc '+field.type+'">'+field.desc+'</span>');
 
-											// info icon for popover
-											field.ele.append('<i class="icon-info-sign icon-black"></i>');
+											// if field has a description
+											if(field.desc){
+												
+												// info icon for popover
+												field.ele.append('<i class="icon-info-sign icon-black"></i>');
 
-											// set popovers for info icons
-											field.ele.children("i.icon-info-sign").popover({
-												title: field.label.getTextOnly(),
-												content: field.desc,
-												delay: { show: 500, hide: 100 },
-												placement: 'top'
-											});
+												// set popovers for info icons
+												field.ele.children("i.icon-info-sign").popover({
+													title: field.label.getTextOnly(),
+													content: field.desc,
+													delay: { show: 500, hide: 100 },
+													placement: 'top'
+												});
+											}
 
 											// add claass to form element
 											field.input.addClass(field.type);
